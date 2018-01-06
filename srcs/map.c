@@ -34,6 +34,8 @@ t_map	*make_fake_map() {
 	}
 	new_map->width = 10;
 	new_map->height = 10;
+	new_map->min = &map[0][0];
+	new_map->max = &map[2][1];
 	return (new_map);
 }
 

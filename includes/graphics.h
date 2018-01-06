@@ -40,5 +40,7 @@ int			g_update(t_window *win);
 t_img		*g_new_img(void *mlx_ptr, int width, int height);
 void		g_put_pixel(t_img *img, t_point_int pt, int color);
 void		g_draw_line(t_img *img, t_point_int a, t_point_int b, int color);
+void		g_rect_fill(t_img *img, t_point_int a, t_point_int b, int color);
+void		g_window_fill(t_window *win, int color);
 
 #endif

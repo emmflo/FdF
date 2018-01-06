@@ -127,3 +127,34 @@ void	g_draw_line(t_img *img, t_point_int a, t_point_int b, int color)
 			g_draw_line_4(img, a, b, delta, color);
 	}
 }
+
+void	g_rect_fill(t_img *img, t_point_int a, t_point_int b, int color)
+{
+	int	y_start;
+
+	y_start = a.y;
+	while (a.x < b.x)
+	{
+		a.y = y_start;
+		while (a.y < b.y)
+		{
+			g_put_pixel(img, a, color);
+			a.y++;
+		}
+		a.x++;
+	}
+}
+
+void	g_window_fill(t_window *win, int color)
+{
+	t_img		*screen;
+	t_point_int	a;
+	t_point_int	b;
+
+	screen = win->img_front;
+	a.x = 0;
+	a.y = 0;
+	b.x = win->size_x;
+	b.y = win->size_y;
+	g_rect_fill(screen, a, b, color);
+}

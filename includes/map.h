@@ -13,6 +13,8 @@ typedef struct	s_map
 	int		**map;
 	int		width;
 	int		height;
+	int		*min;
+	int		*max;
 	t_point	**points;
 }		t_map;
 
