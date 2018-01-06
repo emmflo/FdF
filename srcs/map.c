@@ -36,7 +36,7 @@ t_map	*make_fake_map() {
 	new_map->height = 10;
 	new_map->min = &(new_map->map[0][0]);
 	new_map->max = &(new_map->map[1][2]);
-	printf("%d %d\n", *(new_map->min), *(new_map->max));
+	//printf("%d %d\n", *(new_map->min), *(new_map->max));
 	return (new_map);
 }
 
@@ -55,7 +55,7 @@ void	map_to_points(t_map *map, t_point start, t_point rot, t_point scale, t_poin
 		{
 			points[i][j].x = start.x + i * scale.x;
 			points[i][j].y = start.y + j * scale.y;
-			points[i][j].z = start.z + map->map[i][j] * scale.z;
+			points[i][j].z = start.z + map->map[j][i] * scale.z;
 			rotate(&points[i][j], &center, &rot);
 			j++;
 		}
@@ -101,33 +101,25 @@ void	display_points(t_img *img, t_map *map)
 				a.x = (int)map->points[i][j].x;
 				a.y = (int)map->points[i][j].y;
 				c_a = lerp_rbg(0xFF00FF, 0xFFFF00, 
-				(map->map[i][j] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+				(map->map[j][i] - *(map->min)) / (double)(*(map->max) - *(map->min)));
 				b.x = (int)map->points[i-1][j].x;
 				b.y = (int)map->points[i-1][j].y;
 				c_b = lerp_rbg(0xFF00FF, 0xFFFF00, 
-				(map->map[i-1][j] - *(map->min)) / (double)(*(map->max) - *(map->min)));
-				printf("%d %x %d %x\n", map->map[i][j], c_a, map->map[i-1][j], c_b);
+				(map->map[j][i-1] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+				//printf("%d %x %d %x\n", map->map[i][j], c_a, map->map[i-1][j], c_b);
 				g_draw_line(img, a, b, c_a, c_b);
 			}
 			if (j > 0)
 			{
 				a.x = (int)map->points[i][j].x;
 				a.y = (int)map->points[i][j].y;
-				if (map->map[i][j] <= 5)
-					c_a = 0xFF00FF;
-				else
-					c_a = 0xFFFF00;
-				//c_a = lerp_rbg(0xFF00FF, 0xFFFF00, 
-				//(map->map[i][j] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+				c_a = lerp_rbg(0xFF00FF, 0xFFFF00, 
+				(map->map[j][i] - *(map->min)) / (double)(*(map->max) - *(map->min)));
 				b.x = (int)map->points[i][j-1].x;
 				b.y = (int)map->points[i][j-1].y;
-				if (map->map[i][j-1] <= 5)
-					c_b = 0xFF00FF;
-				else
-					c_b = 0xFFFF00;
-				//c_b = lerp_rbg(0xFF00FF, 0xFFFF00, 
-				//(map->map[i][j-1] - *(map->min)) / (double)(*(map->max) - *(map->min)));
-				printf("%d %x %d %x\n", map->map[i][j], c_a, map->map[i][j-1], c_b);
+				c_b = lerp_rbg(0xFF00FF, 0xFFFF00, 
+				(map->map[j-1][i] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+				//printf("%d %x %d %x\n", map->map[i][j], c_a, map->map[i][j-1], c_b);
 				g_draw_line(img, a, b, c_a, c_b);
 			}
 			j++;

@@ -145,6 +145,9 @@ void	g_draw_line(t_img *img, t_point_int a, t_point_int b, int start_color, int 
 {
 	t_point_int	delta;
 
+	if ((a.x < 0 || a.x > img->width || a.y < 0 || a.y > img->height) &&
+		(b.x < 0 || b.x > img->width || b.y < 0 || b.y > img->height))
+		return ;
 	if (a.x > b.x)
 	{
 		g_draw_line(img, b, a, end_color, start_color);

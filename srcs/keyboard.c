@@ -67,4 +67,6 @@ void	key_set_default(t_keys *keys)
 	keys->act_key[zoom] = XK_q;
 	keys->act_key[dezoom] = XK_e;
 	keys->act_key[quit] = XK_Escape;
+	keys->act_key[scale_z_up] = XK_Page_Up;
+	keys->act_key[scale_z_down] = XK_Page_Down;
 }

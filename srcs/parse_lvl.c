@@ -41,7 +41,7 @@ size_t	get_nb_pt(char *str)
 	return (count);
 }
 
-t_line	*parse_line(char *str, int *min, int *max)
+t_line	*parse_line(char *str, int **min, int **max)
 {
 	t_line	*line;
 	int		in_nb;
@@ -65,10 +65,11 @@ t_line	*parse_line(char *str, int *min, int *max)
 		else if (!in_nb)
 		{
 			line->line[pos] = atoi(&str[i]);
-			if (!min || line->line[pos] < *min)
-				min = &(line->line[pos]);
-			if (!max || line->line[pos] > *max)
-				max = &(line->line[pos]);
+			printf("%p\n", *min);
+			if (!*min || line->line[pos] < **min)
+				*min = &(line->line[pos]);
+			if (!*max || line->line[pos] > **max)
+				*max = &(line->line[pos]);
 			in_nb = 1;
 			pos++;
 		}
@@ -82,6 +83,7 @@ int		**resize_tab(int ***tab, int old_size, int new_size)
 	int	**new_tab;
 	int	i;
 
+	printf("TEST");
 	if (!(new_tab = (int**)malloc(sizeof(int*) * new_size)))
 		return (NULL);
 	i = 0;
@@ -89,8 +91,8 @@ int		**resize_tab(int ***tab, int old_size, int new_size)
 		new_tab[i] = (*tab)[i];
 		i++;
 	}
-	free(tab);
-	tab = &new_tab;
+	free(*tab);
+	*tab = new_tab;
 	return (new_tab);
 }
 
@@ -113,7 +115,7 @@ t_map	*get_map_from_fd(int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		printf("%s\n", line);
-		if (!(parsed_line = parse_line(line, map->min, map->max)))
+		if (!(parsed_line = parse_line(line, &(map->min), &(map->max))))
 		{
 			//delete_map();
 			return (NULL);

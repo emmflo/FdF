@@ -1,6 +1,6 @@
 #ifndef KEYBOARD_H
 # define KEYBOARD_H
-# define NB_ACT 13
+# define NB_ACT 15
 
 typedef struct	s_keys
 {
@@ -8,7 +8,7 @@ typedef struct	s_keys
 	int	act_key[NB_ACT];
 }		t_keys;
 
-enum {up, down, left, right, rot_x, rot_inv_x, rot_y, rot_inv_y, rot_z, rot_inv_z, zoom, dezoom, quit};
+enum {up, down, left, right, rot_x, rot_inv_x, rot_y, rot_inv_y, rot_z, rot_inv_z, zoom, dezoom, quit, scale_z_up, scale_z_down};
 
 # include "env.h"
 

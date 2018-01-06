@@ -15,7 +15,7 @@ LIBDIR := -L$(LIBFTDIR) -L$(MLXDIR)
 LIBOPT := -lft -lmlx -lXext -lX11 -lm
 LIB    := $(LIBDIR) $(LIBOPT)
 CFLAGS := -Wall -Wextra -g $(INCDIR)
-NAME := test
+NAME := fdf
 
 CC := clang
 

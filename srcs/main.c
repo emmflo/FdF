@@ -54,6 +54,11 @@ void	update_keys(t_env *env)
 		if (env->scale.z > 1)
 			env->scale.z -= 1;
 	}
+	if (env->keys.act[scale_z_up])
+		env->scale.z += 1;
+	else if (env->keys.act[scale_z_down])
+		if (env->scale.z > 1)
+			env->scale.z -= 1;
 	if (env->keys.act[quit])
 		exit(0);
 }
