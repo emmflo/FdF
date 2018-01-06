@@ -9,6 +9,8 @@ typedef struct	s_img
 	int		*bits_per_pixel;
 	int		*size_line;
 	int		*endian;
+	int	height;
+	int	width;
 }				t_img;
 
 typedef struct	s_window {
@@ -36,11 +38,12 @@ typedef struct s_point_int {
 }				t_point_int;
 
 t_window	*g_new_window(void *mlx_ptr, int size_x, int size_y, char *title);
-int			g_update(t_window *win);
+int		g_update(t_window *win);
 t_img		*g_new_img(void *mlx_ptr, int width, int height);
 void		g_put_pixel(t_img *img, t_point_int pt, int color);
-void		g_draw_line(t_img *img, t_point_int a, t_point_int b, int color);
+void		g_draw_line(t_img *img, t_point_int a, t_point_int b, int start_color, int end_color);
 void		g_rect_fill(t_img *img, t_point_int a, t_point_int b, int color);
 void		g_window_fill(t_window *win, int color);
+int		lerp_rbg(int start, int end, double t);
 
 #endif
