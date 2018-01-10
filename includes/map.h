@@ -18,9 +18,16 @@ typedef struct	s_map
 	t_point	**points;
 }		t_map;
 
-t_map	*make_fake_map();
-void	map_to_points(t_map *map, t_point start, t_point rot, t_point scale, t_point center);
-void	rotate(t_point *pt, t_point *c, t_point *rot);
+typedef struct	s_params
+{
+	t_point		start;
+	t_point		scale;
+	t_point		center;
+	t_point		rot;
+}				t_params;
+
+void	map_to_points(t_map *map, t_params *params);
+void	rotate(t_point *pt, t_params *params);
 void	display_points(t_img *img, t_map *map);
 
 #endif

@@ -7,11 +7,8 @@ typedef struct	s_env
 {
 	t_window	*win;
 	t_keys		keys;
-	t_point		rot;
 	t_map		*map;
-	t_point		start;
-	t_point		scale;
-	t_point		center;
+	t_params	*params;
 }				t_env;
 
 #endif

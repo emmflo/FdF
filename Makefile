@@ -2,17 +2,20 @@ OBJDIR := objs
 OBJLIST := \
 	main.o \
 	draw.o \
+	draw_line.o \
+	draw_fill.o \
 	keyboard.o \
 	map.o \
 	parse_lvl.o \
 	window.o
 LIBFTDIR := libft
-MLXDIR := minilibx
+MLXDIR := minilibx_macos
 OBJS := $(addprefix $(OBJDIR)/,$(OBJLIST))
 SRCDIR := srcs
-INCDIR := -Iincludes -I$(LIBFTDIR)/includes -I$(MLXDIR)
+INCDIR := -Iincludes -I$(LIBFTDIR)/includes -I$(MLXDIR) -I/opt/X11/include/
 LIBDIR := -L$(LIBFTDIR) -L$(MLXDIR)
-LIBOPT := -lft -lmlx -lXext -lX11 -lm
+#LIBOPT := -lft -lmlx -lXext -lX11 -lm
+LIBOPT := -lft -lm -lmlx -framework OpenGL -framework AppKit
 LIB    := $(LIBDIR) $(LIBOPT)
 CFLAGS := -Wall -Wextra -g $(INCDIR)
 NAME := fdf

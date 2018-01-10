@@ -11,7 +11,8 @@ int		check_line(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (!(('0' <= str[i] && str[i] <= '9') || str[i] == '-' || str[i] == ' '))
+		if (!(('0' <= str[i] && str[i] <= '9')
+					|| str[i] == '-' || str[i] == ' '))
 			return (0);
 		i++;
 	}
@@ -65,7 +66,7 @@ t_line	*parse_line(char *str, int **min, int **max)
 		else if (!in_nb)
 		{
 			line->line[pos] = atoi(&str[i]);
-			printf("%p\n", *min);
+			//printf("%p\n", *min);
 			if (!*min || line->line[pos] < **min)
 				*min = &(line->line[pos]);
 			if (!*max || line->line[pos] > **max)
@@ -83,7 +84,7 @@ int		**resize_tab(int ***tab, int old_size, int new_size)
 	int	**new_tab;
 	int	i;
 
-	printf("TEST");
+	//printf("TEST");
 	if (!(new_tab = (int**)malloc(sizeof(int*) * new_size)))
 		return (NULL);
 	i = 0;
@@ -114,7 +115,7 @@ t_map	*get_map_from_fd(int fd)
 		return (NULL);
 	while (get_next_line(fd, &line) > 0)
 	{
-		printf("%s\n", line);
+		//printf("%s\n", line);
 		if (!(parsed_line = parse_line(line, &(map->min), &(map->max))))
 		{
 			//delete_map();
@@ -139,7 +140,7 @@ t_map	*get_map_from_fd(int fd)
 		map->map[map->height] = parsed_line->line;
 		map->height += 1;
 	}
-	printf("WIDTH %d HEIGHT %d\n", map->width, map->height);
+	//printf("WIDTH %d HEIGHT %d\n", map->width, map->height);
 	return (map);
 }
 

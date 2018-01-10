@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eflorenz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/01/10 19:38:28 by eflorenz          #+#    #+#             */
+/*   Updated: 2018/01/10 19:38:38 by eflorenz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "graphics.h"
 #include <string.h>
 #include <stdlib.h>
@@ -25,10 +37,8 @@ int			g_update(t_window *win)
 	void	**tmp;
 
 	mlx_clear_window(win->mlx_ptr, win->win_ptr);
-	if (!(mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, (win->img_front)->img, 0, 0)))
+	if (!(mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+					(win->img_front)->img, 0, 0)))
 		return (0);
-	//tmp = win->img_current;
-	//win->img_current = win->img_next;
-	//win->img_next = tmp;
 	return (1);
 }

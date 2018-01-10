@@ -1,5 +1,10 @@
 #ifndef KEYBOARD_H
 # define KEYBOARD_H
+# ifdef __APPLE__
+#  include "key_defs.h"
+# else
+#  include <X11/keysym.h>
+# endif
 # define NB_ACT 15
 
 typedef struct	s_keys
