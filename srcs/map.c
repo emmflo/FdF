@@ -79,13 +79,9 @@ void	display_line(t_img *img, t_map *map, int i, int j, int k, int l)
 	b.y = (int)map->points[k][l].y;
 	if (map->auto_color)
 	{
-		tmp.start = 0xFF00FF;
-		tmp.end = 0xFFFF00;
-		color.start = lerp_rbg(tmp,
+		color.start = lerp_rbg(map->color,
 			(map->map[j][i] - *(map->min)) / (double)(*(map->max) - *(map->min)));
-		tmp.start = 0xFF00FF;
-		tmp.end = 0xFFFF00;
-		color.end = lerp_rbg(tmp,
+		color.end = lerp_rbg(map->color,
 			(map->map[l][k] - *(map->min)) / (double)(*(map->max) - *(map->min)));
 	}
 	else

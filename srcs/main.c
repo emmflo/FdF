@@ -142,9 +142,21 @@ int		init_map(int argc, char *argv[], t_env *env)
 {
 	if (argc >= 2)
 	{
+		printf("ARGC %d\n", argc);
 		if (!(env->map = get_map_from_path(argv[1])))
 			return (0);
-		env->map->auto_color = 0;
+		if (argc == 4)
+		{
+			env->map->color.start = strtol(argv[2], NULL, 16);
+			env->map->color.end = strtol(argv[3], NULL, 16);
+			env->map->auto_color = 1;
+		}
+		else
+		{
+			env->map->color.start = 0xFF00FF;
+			env->map->color.end = 0xFFFF00;
+			env->map->auto_color = 0;
+		}
 	}
 	else
 		return (0);

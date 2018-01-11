@@ -19,6 +19,7 @@ typedef struct	s_map
 	int		*max;
 	t_point	**points;
 	int		auto_color;
+	t_gradient	color;	
 }		t_map;
 
 typedef struct	s_params
