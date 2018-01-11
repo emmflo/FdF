@@ -140,10 +140,16 @@ int		init_win(t_env *env)
 
 int		init_map(int argc, char *argv[], t_env *env)
 {
+	int	color;
+
 	if (argc >= 2)
 	{
 		printf("ARGC %d\n", argc);
-		if (!(env->map = get_map_from_path(argv[1])))
+		if (argc == 3)
+			color = strtol(argv[2], NULL, 16);
+		else
+			color = 0xFFFFFF;
+		if (!(env->map = get_map_from_path(argv[1], color)))
 			return (0);
 		if (argc == 4)
 		{

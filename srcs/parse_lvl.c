@@ -43,7 +43,7 @@ size_t	get_nb_pt(char *str)
 	return (count + 1);
 }
 
-t_line	*parse_line(char *str, int **min, int **max)
+t_line	*parse_line(char *str, int **min, int **max, int color)
 {
 	t_line	*line;
 	int		in_nb;
@@ -72,7 +72,7 @@ t_line	*parse_line(char *str, int **min, int **max)
 		else if (!in_nb)
 		{
 			line->line[pos] = atoi(&str[i]);
-			line->color[pos] = 0xFFFFFF;
+			line->color[pos] = color;
 			//printf("%p\n", *min);
 			if (!*min || line->line[pos] < **min)
 				*min = &(line->line[pos]);
@@ -108,7 +108,7 @@ int		**resize_tab(int ***tab, int old_size, int new_size)
 	return (new_tab);
 }
 
-t_map	*get_map_from_fd(int fd)
+t_map	*get_map_from_fd(int fd, int color)
 {
 	char	*line;
 	t_line	*parsed_line;
@@ -129,7 +129,7 @@ t_map	*get_map_from_fd(int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		printf("%s\n", line);
-		if (!(parsed_line = parse_line(line, &(map->min), &(map->max))))
+		if (!(parsed_line = parse_line(line, &(map->min), &(map->max), color)))
 		{
 			//delete_map();
 			return (NULL);
@@ -158,13 +158,13 @@ t_map	*get_map_from_fd(int fd)
 	return (map);
 }
 
-t_map	*get_map_from_path(char *path)
+t_map	*get_map_from_path(char *path, int color)
 {
 	t_map	*map;
 	int	fd;
 
 	fd = open(path, O_RDONLY);
-	map = get_map_from_fd(fd);
+	map = get_map_from_fd(fd, color);
 	close(fd);
 	return (map);
 }
