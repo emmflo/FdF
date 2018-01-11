@@ -89,6 +89,10 @@ void	update_keys(t_env *env)
 	update_rotations(env);
 	update_zoom(env);
 	update_scale(env);
+	if (env->keys.act[color_auto_on])
+		env->map->auto_color = 1;
+	if (env->keys.act[color_auto_off])
+		env->map->auto_color = 0;
 	if (env->keys.act[quit])
 		exit(0);
 }
@@ -137,7 +141,11 @@ int		init_win(t_env *env)
 int		init_map(int argc, char *argv[], t_env *env)
 {
 	if (argc >= 2)
-		env->map = get_map_from_path(argv[1]);
+	{
+		if (!(env->map = get_map_from_path(argv[1])))
+			return (0);
+		env->map->auto_color = 0;
+	}
 	else
 		return (0);
 	return (1);

@@ -5,15 +5,16 @@
 # else
 #  include <X11/keysym.h>
 # endif
-# define NB_ACT 15
+# define NB_ACT 17
 
 typedef struct	s_keys
 {
 	int	act[NB_ACT];
+	int	last_act[NB_ACT];
 	int	act_key[NB_ACT];
 }		t_keys;
 
-enum {up, down, left, right, rot_x, rot_inv_x, rot_y, rot_inv_y, rot_z, rot_inv_z, zoom, dezoom, quit, scale_z_up, scale_z_down};
+enum {up, down, left, right, rot_x, rot_inv_x, rot_y, rot_inv_y, rot_z, rot_inv_z, zoom, dezoom, quit, scale_z_up, scale_z_down, color_auto_on, color_auto_off};
 
 # include "env.h"
 

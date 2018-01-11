@@ -9,13 +9,14 @@ OBJLIST := \
 	parse_lvl.o \
 	window.o
 LIBFTDIR := libft
-MLXDIR := minilibx_macos
+#MLXDIR := minilibx_macos
+MLXDIR := minilibx
 OBJS := $(addprefix $(OBJDIR)/,$(OBJLIST))
 SRCDIR := srcs
 INCDIR := -Iincludes -I$(LIBFTDIR)/includes -I$(MLXDIR) -I/opt/X11/include/
 LIBDIR := -L$(LIBFTDIR) -L$(MLXDIR)
-#LIBOPT := -lft -lmlx -lXext -lX11 -lm
-LIBOPT := -lft -lm -lmlx -framework OpenGL -framework AppKit
+LIBOPT := -lft -lmlx -lXext -lX11 -lm
+#LIBOPT := -lft -lm -lmlx -framework OpenGL -framework AppKit
 LIB    := $(LIBDIR) $(LIBOPT)
 CFLAGS := -Wall -Wextra -g $(INCDIR)
 NAME := fdf

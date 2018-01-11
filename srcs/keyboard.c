@@ -25,7 +25,10 @@ int		key_press(int keycode, t_env *env)
 	while (i < NB_ACT)
 	{
 		if (keycode == env->keys.act_key[i])
+		{
+			env->keys.last_act[i] = env->keys.act[i];
 			env->keys.act[i] = 1;
+		}
 		i++;
 	}
 }
@@ -38,7 +41,10 @@ int		key_release(int keycode, t_env *env)
 	while (i < NB_ACT)
 	{
 		if (keycode == env->keys.act_key[i])
+		{
+			env->keys.last_act[i] = env->keys.act[i];
 			env->keys.act[i] = 0;
+		}
 		i++;
 	}
 }
@@ -52,6 +58,7 @@ void	key_set_default(t_keys *keys)
 	{
 		keys->act_key[i] = -1;
 		keys->act[i] = 0;
+		keys->last_act[i] = 0;
 		i++;
 	}
 	keys->act_key[up] = XK_w;
@@ -67,4 +74,6 @@ void	key_set_default(t_keys *keys)
 	keys->act_key[quit] = XK_Escape;
 	keys->act_key[scale_z_up] = XK_Page_Up;
 	keys->act_key[scale_z_down] = XK_Page_Down;
+	keys->act_key[color_auto_on] = XK_c;
+	keys->act_key[color_auto_off] = XK_v;
 }

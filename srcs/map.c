@@ -73,18 +73,26 @@ void	display_line(t_img *img, t_map *map, int i, int j, int k, int l)
 	t_point_int	a;
 	t_point_int	b;
 
-	tmp.start = 0xFF00FF;
-	tmp.end = 0xFFFF00;
 	a.x = (int)map->points[i][j].x;
 	a.y = (int)map->points[i][j].y;
-	color.start = lerp_rbg(tmp,
-		(map->map[j][i] - *(map->min)) / (double)(*(map->max) - *(map->min)));
-	tmp.start = 0xFF00FF;
-	tmp.end = 0xFFFF00;
 	b.x = (int)map->points[k][l].x;
 	b.y = (int)map->points[k][l].y;
-	color.end = lerp_rbg(tmp,
-		(map->map[l][k] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+	if (map->auto_color)
+	{
+		tmp.start = 0xFF00FF;
+		tmp.end = 0xFFFF00;
+		color.start = lerp_rbg(tmp,
+			(map->map[j][i] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+		tmp.start = 0xFF00FF;
+		tmp.end = 0xFFFF00;
+		color.end = lerp_rbg(tmp,
+			(map->map[l][k] - *(map->min)) / (double)(*(map->max) - *(map->min)));
+	}
+	else
+	{
+		color.start = map->colors[j][i];
+		color.end = map->colors[l][k];
+	}
 	g_draw_line(img, a, b, color);
 }
 
