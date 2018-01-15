@@ -1,21 +1,19 @@
 OBJDIR := objs
 OBJLIST := \
 	main.o \
-	draw.o \
-	draw_line.o \
-	draw_fill.o \
 	keyboard.o \
 	map.o \
-	parse_lvl.o \
-	window.o
+	parse_lvl.o
 LIBFTDIR := libft
 #MLXDIR := minilibx_macos
 MLXDIR := minilibx
+MLX_GRAPHICSDIR := mlx_graphics
+MLX_IMGUIDIR := mlx_imgui
 OBJS := $(addprefix $(OBJDIR)/,$(OBJLIST))
 SRCDIR := srcs
-INCDIR := -Iincludes -I$(LIBFTDIR)/includes -I$(MLXDIR) -I/opt/X11/include/
-LIBDIR := -L$(LIBFTDIR) -L$(MLXDIR)
-LIBOPT := -lft -lmlx -lXext -lX11 -lm
+INCDIR := -Iincludes -I$(LIBFTDIR)/includes -I$(MLXDIR) -I$(MLX_GRAPHICSDIR)/includes -I$(MLX_IMGUIDIR)/includes -I/opt/X11/include/
+LIBDIR := -L$(LIBFTDIR) -L$(MLXDIR) -L$(MLX_GRAPHICSDIR) -L$(MLX_IMGUIDIR)
+LIBOPT := -lXext -lX11 -lm -lmlx_imgui -lmlx_graphics -lmlx -lft
 #LIBOPT := -lft -lm -lmlx -framework OpenGL -framework AppKit
 LIB    := $(LIBDIR) $(LIBOPT)
 CFLAGS := -Wall -Wextra -g $(INCDIR)
@@ -30,7 +28,7 @@ POSTCOMPILE = @mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
 
 .PHONY : all clean clean_lft fclean fclean_lft binclean binclean_lft re re_lft clean_mlx re_mlx
 
-all : | $(LIBFTDIR)/libft.a $(MLXDIR)/libmlx.a $(NAME)
+all : | $(LIBFTDIR)/libft.a $(MLXDIR)/libmlx.a $(MLX_GRAPHICSDIR)/libmlx_graphics.a $(NAME)
 	
 $(NAME) : $(OBJS)
 	@echo Binary
@@ -56,6 +54,9 @@ $(LIBFTDIR)/libft.a:
 	make -C $(dir $@)
 
 $(MLXDIR)/libmlx.a:
+	make -C $(dir $@)
+
+$(MLX_GRAPHICSDIR)/libmlx_graphics.a:
 	make -C $(dir $@)
 
 clean :

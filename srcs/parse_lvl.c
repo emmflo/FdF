@@ -43,19 +43,19 @@ size_t	get_nb_pt(char *str)
 	return (count + 1);
 }
 
-t_line	*parse_line(char *str, int **min, int **max, int color)
+t_map_line	*parse_line(char *str, int **min, int **max, int color)
 {
-	t_line	*line;
+	t_map_line	*line;
 	int		in_nb;
 	int		pos;
 	int		i;
 
 	if (!check_line(str))
 		return (NULL);
-	if (!(line = (t_line*)malloc(sizeof(t_line))))
+	if (!(line = (t_map_line*)malloc(sizeof(t_map_line))))
 		return (NULL);
 	line->size = get_nb_pt(str);
-	printf("line->size %d\n", line->size);
+	//printf("line->size %d\n", line->size);
 	if (!(line->line = (int*)malloc(sizeof(int) * line->size)))
 		return (NULL);
 	if (!(line->color = (int*)malloc(sizeof(int) * line->size)))
@@ -111,7 +111,7 @@ int		**resize_tab(int ***tab, int old_size, int new_size)
 t_map	*get_map_from_fd(int fd, int color)
 {
 	char	*line;
-	t_line	*parsed_line;
+	t_map_line	*parsed_line;
 	t_map	*map;
 	int		size;
 
@@ -128,7 +128,7 @@ t_map	*get_map_from_fd(int fd, int color)
 		return (NULL);
 	while (get_next_line(fd, &line) > 0)
 	{
-		printf("%s\n", line);
+		//printf("%s\n", line);
 		if (!(parsed_line = parse_line(line, &(map->min), &(map->max), color)))
 		{
 			//delete_map();
@@ -138,7 +138,7 @@ t_map	*get_map_from_fd(int fd, int color)
 			map->width = parsed_line->size;
 		else if (map->width != parsed_line->size)
 		{
-			printf("B");
+			//printf("B");
 			//delete_map(map);
 			return (NULL);
 		}
@@ -154,7 +154,7 @@ t_map	*get_map_from_fd(int fd, int color)
 		map->colors[map->height] = parsed_line->color;
 		map->height += 1;
 	}
-	printf("WIDTH %d HEIGHT %d\n", map->width, map->height);
+	//printf("WIDTH %d HEIGHT %d\n", map->width, map->height);
 	return (map);
 }
 

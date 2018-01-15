@@ -1,13 +1,14 @@
 #ifndef MAP_H
 # define MAP_H
 # include "graphics.h"
+# include "libft.h"
 
-typedef struct	s_line
+typedef struct	s_map_line
 {
 	int		*line;
 	int		*color;
 	int		size;
-}		t_line;
+}		t_map_line;
 
 typedef struct	s_map
 {
@@ -17,9 +18,11 @@ typedef struct	s_map
 	int		height;
 	int		*min;
 	int		*max;
-	t_point	**points;
+	t_point		**points;
+	t_list		*lines;
 	int		auto_color;
 	t_gradient	color;	
+	int		changed;
 }		t_map;
 
 typedef struct	s_params
