@@ -22,6 +22,8 @@ int		key_press(int keycode, t_env *env)
 
 	printf("PRESS %d\n", keycode);
 	i = 0;
+	if (keycode == env->keys.act[quit])
+		return (1);
 	while (i < NB_ACT)
 	{
 		if (keycode == env->keys.act_key[i])

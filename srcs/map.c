@@ -66,7 +66,51 @@ void	rotate(t_point *pt, t_params *params)
 	pt->x = tmp.x;
 }
 
-void	display_line(t_img *img, t_map *map, int i, int j, int k, int l)
+void	add_to_lines(t_map *map, t_point_int a, t_point_int b, t_gradient color, double z)
+{
+	//t_list		*elem;
+	//t_list		*prev;
+	t_line	*new;
+
+	if (!(new = (t_line*)malloc(sizeof(t_line))))
+		return ;
+	new->start = a;
+	new->end = b;
+	new->color = color;
+	new->z_index = z;
+	//prev = NULL;
+	//elem = map->lines;
+	ft_lstadd(&(map->lines), ft_lstnew(new, sizeof(t_line)));
+	//printf("%d %d; %d %d\n", new->start.x, new->start.y, new->end.x, new->end.y);
+	/*if (elem == NULL)
+	{
+		map->lines = ft_lstnew(new, sizeof(t_line));
+		return ;
+	}
+	while (elem != NULL)
+	{
+		if (((t_line*)elem->content)->z_index > z)
+		{
+			if (prev == NULL)
+			{
+				map->lines = ft_lstnew(new, sizeof(t_line));
+				map->lines->next = elem;
+			}
+			else
+			{
+				prev->next = ft_lstnew(new, sizeof(t_line));
+				prev->next->next = elem;
+			}
+			return ;
+		}
+		prev = elem;
+		elem = elem->next;
+	}
+	if (elem == NULL)
+		prev->next = ft_lstnew(new, sizeof(t_line));*/
+}
+
+void	add_line(t_img *img, t_map *map, int i, int j, int k, int l)
 {
 	t_gradient	tmp;
 	t_gradient	color;
@@ -77,6 +121,9 @@ void	display_line(t_img *img, t_map *map, int i, int j, int k, int l)
 	a.y = (int)map->points[i][j].y;
 	b.x = (int)map->points[k][l].x;
 	b.y = (int)map->points[k][l].y;
+	if (((a.x < 0 || a.x > img->width || a.y < 0 || a.y > img->height) &&
+		(b.x < 0 || b.x > img->width || b.y < 0 || b.y > img->height)))
+		return ;
 	if (map->auto_color)
 	{
 		color.start = lerp_rbg(map->color,
@@ -89,10 +136,12 @@ void	display_line(t_img *img, t_map *map, int i, int j, int k, int l)
 		color.start = map->colors[j][i];
 		color.end = map->colors[l][k];
 	}
-	g_draw_line(img, a, b, color);
+	//g_draw_line(img, a, b, color);
+
+	add_to_lines(map, a, b, color, map->points[i][j].z);
 }
 
-void	display_points(t_img *img, t_map *map)
+void	add_points(t_img *img, t_map *map)
 {
 	int			i;
 	int			j;
@@ -104,11 +153,62 @@ void	display_points(t_img *img, t_map *map)
 		while (j < map->height)
 		{
 			if (i > 0)
-				display_line(img, map, i, j, i - 1, j);
+				add_line(img, map, i, j, i - 1, j);
 			if (j > 0)
-				display_line(img, map, i, j, i, j - 1);
+				add_line(img, map, i, j, i, j - 1);
 			j++;
 		}
 		i++;
 	}
+}
+
+int	sort_lines(void *a, void *b)
+{
+	if (((t_line*)a)->z_index > ((t_line*)b)->z_index)
+		return (1);
+	else
+		return (-1);
+}
+
+void	delete_points(t_map *map)
+{
+	int	i;
+	t_list *elem;
+	t_line *line;
+	t_list *tmp;
+
+	elem = map->lines;
+	while (elem != NULL)
+	{
+		line = (t_line*)elem->content;
+		//printf("%d %d; %d %d\n", line->start.x, line->start.y, line->end.x, line->end.y);
+		//g_draw_line(img, line->start, line->end, line->color);
+		free(line);
+		tmp = elem;
+		elem = elem->next;
+		free(tmp);
+	}
+	map->lines = NULL;
+}
+
+t_list		*ft_merge_sort(t_list *list, int cmp(void *, void *));
+void	display_lines(t_img *img, t_map *map)
+{
+	t_list *elem;
+	//t_list *tmp;
+	t_line *line;
+
+	map->lines = ft_merge_sort(map->lines, &sort_lines);
+	elem = map->lines;
+	while (elem != NULL)
+	{
+		line = (t_line*)elem->content;
+		//printf("%d %d; %d %d\n", line->start.x, line->start.y, line->end.x, line->end.y);
+		g_draw_line(img, line->start, line->end, line->color);
+		//free(line);
+		//tmp = elem;
+		elem = elem->next;
+		//free(tmp);
+	}
+	//map->lines = NULL;
 }

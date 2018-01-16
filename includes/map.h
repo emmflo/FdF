@@ -35,6 +35,7 @@ typedef struct	s_params
 
 void	map_to_points(t_map *map, t_params *params);
 void	rotate(t_point *pt, t_params *params);
-void	display_points(t_img *img, t_map *map);
+void	add_points(t_img *img, t_map *map);
+void	display_lines(t_img *img, t_map *map);
 
 #endif

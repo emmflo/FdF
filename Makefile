@@ -3,7 +3,8 @@ OBJLIST := \
 	main.o \
 	keyboard.o \
 	map.o \
-	parse_lvl.o
+	parse_lvl.o \
+	sort.o
 LIBFTDIR := libft
 #MLXDIR := minilibx_macos
 MLXDIR := minilibx
@@ -16,7 +17,7 @@ LIBDIR := -L$(LIBFTDIR) -L$(MLXDIR) -L$(MLX_GRAPHICSDIR) -L$(MLX_IMGUIDIR)
 LIBOPT := -lXext -lX11 -lm -lmlx_imgui -lmlx_graphics -lmlx -lft
 #LIBOPT := -lft -lm -lmlx -framework OpenGL -framework AppKit
 LIB    := $(LIBDIR) $(LIBOPT)
-CFLAGS := -Wall -Wextra -g $(INCDIR)
+CFLAGS := -Wall -Wextra -g -O3 $(INCDIR)
 NAME := fdf
 
 CC := clang

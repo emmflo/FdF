@@ -156,7 +156,10 @@ void	update_keys(t_env *env)
 	update_zoom(env);
 	update_scale(env);
 	if (!env->keys.last_act[color_auto] && env->keys.act[color_auto])
+	{
 		env->map->auto_color = !env->map->auto_color;
+		env->map->changed = 1;
+	}
 	if (env->keys.act[quit])
 		exit(0);
 	if (!env->keys.last_act[menu] && env->keys.act[menu])
@@ -201,6 +204,7 @@ void	update_menu(t_env *env)
 	}
 }
 
+void	delete_points(t_map *map);
 int		update(t_env *env)
 {
 	static clock_t	t1 = 0;
@@ -211,8 +215,7 @@ int		update(t_env *env)
 		return (0);
 	else
 		t1 = t2;
-	//mlx_clear_window(env->win->mlx_ptr, env->win->win_ptr);
-	g_window_fill(env->win, 0);
+	//g_window_fill(env->win, 0);
 	update_keys(env);
 	env->params->center.x = env->params->start.x + (env->params->scale.x * env->map->width / 2);
 	env->params->center.y = env->params->start.y + (env->params->scale.y * env->map->height / 2);
@@ -221,8 +224,10 @@ int		update(t_env *env)
 	{
 		map_to_points(env->map, env->params);
 		env->map->changed = 0;
+		delete_points(env->map);
+		add_points(env->win->img_next, env->map);
 	}
-	display_points(env->win->img_next, env->map);
+	display_lines(env->win->img_next, env->map);
 	update_menu(env);
 	printf("UPDATE %d\n", g_update(env->win));
 	g_render_delete_text_buffer(env->win);
@@ -270,7 +275,10 @@ int		init_map(int argc, char *argv[], t_env *env)
 		else
 			color = 0xFFFFFF;
 		if (!(env->map = get_map_from_path(argv[1], color)))
+		{
+			printf("MAP FAIL");
 			return (0);
+		}
 		if (argc == 4)
 		{
 			env->map->color.start = strtol(argv[2], NULL, 16);
@@ -284,6 +292,7 @@ int		init_map(int argc, char *argv[], t_env *env)
 			env->map->auto_color = 0;
 		}
 		env->map->changed = 1;
+		env->map->lines = NULL;
 	}
 	else
 		return (0);
@@ -299,6 +308,7 @@ int		init_env(t_env *env)
 	env->params->center.y = env->params->start.y + (env->params->scale.y * env->map->height / 2);
 	env->params->center.z = (abs(*(env->map->max)
 				- *(env->map->min)) * env->params->scale.z) / 2;
+	return (1);
 }
 
 int		destroy(t_env *env)
@@ -313,15 +323,15 @@ int		main(int argc, char *argv[])
 	t_env		*env;
 
 	if (!(env = set_env()))
-		return (-1);
+		return (1);
 	if (!init_win(env))
-		return (-1);
+		return (2);
 	if (!init_map(argc, argv, env))
-		return (-1);
+		return (3);
 	if (!init_env(env))
-		return (-1);
+		return (4);
 	if (!(env->ui = make_ui()))
-		return (-1);
+		return (4);
 	mlx_hook(env->win->win_ptr, MotionNotify, PointerMotionMask, &(mouse_move), env);
 	mlx_hook(env->win->win_ptr, ButtonPress, ButtonPressMask, &(mouse_press_button), env);
 	mlx_hook(env->win->win_ptr, ButtonRelease, ButtonReleaseMask, &(mouse_release_button), env);
