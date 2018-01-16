@@ -192,15 +192,22 @@ void	update_menu(t_env *env)
 	{
 		g_rect_fill(env->win->img_next, make_rect(0, 0, 240, env->win->size_y), 0x333333);
 		if(button(env->win, env->ui, 1, make_rect(20, 20, 64, 32), "Quit"))
+
 			exit(0);
 		color_picker(env->win, env->ui, 2, make_rect(20, 100, 200, 200), hsv_color, hsv_color_select);
 
 		g_rect_fill(env->win->img_next, make_rect(20, 320, 50, 50), g_hsv_to_color(*hsv_color));
 		g_rect_fill(env->win->img_next, make_rect(100, 320, 50, 50), g_hsv_to_color(*hsv_color_select));
 		if (button(env->win, env->ui, 3, make_rect(20, 400, 64, 32), "Start"))
+		{
 			env->map->color.start = g_hsv_to_color(*hsv_color_select);
+			env->map->changed = 1;
+		}
 		if (button(env->win, env->ui, 4, make_rect(100, 400, 64, 32), "End"))
+		{
 			env->map->color.end = g_hsv_to_color(*hsv_color_select);
+			env->map->changed = 1;
+		}
 	}
 }
 
@@ -210,18 +217,18 @@ int		update(t_env *env)
 	static clock_t	t1 = 0;
 	clock_t		t2 = 0;
 	t2 = clock();
-	//printf("%d\n", (t2 - t1));
-	if ((t2 - t1) * 30 < CLOCKS_PER_SEC)
+	printf("%d\n", (t2 - t1));
+	if ((t2 - t1) * 20 < CLOCKS_PER_SEC)
 		return (0);
 	else
 		t1 = t2;
 	//g_window_fill(env->win, 0);
 	update_keys(env);
-	env->params->center.x = env->params->start.x + (env->params->scale.x * env->map->width / 2);
-	env->params->center.y = env->params->start.y + (env->params->scale.y * env->map->height / 2);
-	env->params->center.z = env->params->start.z + ((abs(*(env->map->max) - *(env->map->min)) * env->params->scale.z) / 2);
 	if (env->map->changed)
 	{
+		env->params->center.x = env->params->start.x + (env->params->scale.x * env->map->width / 2);
+		env->params->center.y = env->params->start.y + (env->params->scale.y * env->map->height / 2);
+		env->params->center.z = env->params->start.z + ((abs(*(env->map->max) - *(env->map->min)) * env->params->scale.z) / 2);
 		map_to_points(env->map, env->params);
 		env->map->changed = 0;
 		delete_points(env->map);
@@ -229,7 +236,7 @@ int		update(t_env *env)
 	}
 	display_lines(env->win->img_next, env->map);
 	update_menu(env);
-	printf("UPDATE %d\n", g_update(env->win));
+	g_update(env->win);
 	g_render_delete_text_buffer(env->win);
 }
 
