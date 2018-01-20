@@ -194,7 +194,7 @@ void	update_menu(t_env *env)
 		if(button(env->win, env->ui, 1, make_rect(20, 20, 64, 32), "Quit"))
 
 			exit(0);
-		color_picker(env->win, env->ui, 2, make_rect(20, 100, 200, 200), hsv_color, hsv_color_select);
+		color_picker(env->win, env->ui, 50, make_rect(20, 100, 200, 200), hsv_color, hsv_color_select);
 
 		g_rect_fill(env->win->img_next, make_rect(20, 320, 50, 50), g_hsv_to_color(*hsv_color));
 		g_rect_fill(env->win->img_next, make_rect(100, 320, 50, 50), g_hsv_to_color(*hsv_color_select));
